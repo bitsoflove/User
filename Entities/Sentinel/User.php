@@ -25,6 +25,12 @@ class User extends EloquentUser implements UserInterface
 
     protected $presenter = 'Modules\User\Presenters\UserPresenter';
 
+    public function sites() {
+        if (is_module_enabled('Site')) {
+            return $this->belongsToMany(\App\Models\Site::class, 'site_user', 'user_id', 'site_id');
+        }
+    }
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
