@@ -9,6 +9,7 @@ use Modules\User\Entities\UserInterface;
 class User extends EloquentUser implements UserInterface
 {
     use PresentableTrait;
+    use \Modules\User\Traits\MultiSiteTenancyTrait;
 
     protected $fillable = [
         'email',
