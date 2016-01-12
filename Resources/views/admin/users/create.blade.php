@@ -29,6 +29,9 @@
                 <li class="active"><a href="#tab_1-1" data-toggle="tab">{{ trans('user::users.tabs.data') }}</a></li>
                 <li class=""><a href="#tab_2-2" data-toggle="tab">{{ trans('user::users.tabs.roles') }}</a></li>
                 <li class=""><a href="#tab_3-3" data-toggle="tab">{{ trans('user::users.tabs.permissions') }}</a></li>
+                @if(is_module_enabled('Site'))
+                    <li class=""><a href="#tab-sites" data-toggle="tab">Sites</a></li>
+                @endif
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1-1">
@@ -95,6 +98,25 @@
                         @include('user::admin.partials.permissions-create')
                     </div>
                 </div>
+
+                <div class="tab-pane" id="tab-sites">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-12">
+
+
+                                @include('fields::select-multiple', [
+                                    'title' => 'Sites',
+                                    'name' => 'user_sites',
+                                    'options' => Site::all()->lists('title', 'id')->toArray(),
+                                    'selected' => empty($user) ? [] :  $user->sites->lists('title', 'id')->toArray(),
+                                ])
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="box-footer">
                     <button type="submit" class="btn btn-primary btn-flat">{{ trans('user::button.create') }}</button>
                     <button class="btn btn-default btn-flat" name="button" type="reset">{{ trans('core::core.button.reset') }}</button>

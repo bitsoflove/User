@@ -40,7 +40,13 @@ class SentinelUserRepository implements UserRepository
      */
     public function create(array $data)
     {
-        return $this->user->create((array) $data);
+        $user = $this->user->create((array) $data);
+
+        if(is_module_enabled('Site')) {
+            $this->syncSites($user, $data);
+        }
+
+        return $this->find($user->id);
     }
 
     /**
@@ -61,6 +67,10 @@ class SentinelUserRepository implements UserRepository
         if ($activated) {
             $activation = Activation::create($user);
             Activation::complete($user, $activation->code);
+        }
+
+        if(is_module_enabled('Site')) {
+            $this->syncSites($user, $data);
         }
     }
 
@@ -84,9 +94,13 @@ class SentinelUserRepository implements UserRepository
     {
         $user = $user->update($data);
 
+        if(is_module_enabled('Site')) {
+            $this->syncSites($user, $data);
+        }
+
         event(new UserWasUpdated($user));
 
-        return $user;
+        return $this->find($user->id);
     }
 
     /**
@@ -107,6 +121,10 @@ class SentinelUserRepository implements UserRepository
         $user = $user->fill($data);
         $user->save();
 
+        if(is_module_enabled('Site')) {
+            $this->syncSites($user, $data);
+        }
+
         event(new UserWasUpdated($user));
 
         if (!empty($roles)) {
@@ -122,6 +140,10 @@ class SentinelUserRepository implements UserRepository
      */
     public function delete($id)
     {
+        if(is_module_enabled('Site')) {
+            $this->detachSites($user);
+        }
+
         if ($user = $this->user->find($id)) {
             return $user->delete();
         };
@@ -180,5 +202,15 @@ class SentinelUserRepository implements UserRepository
 
             return Activation::complete($user, $activation->code);
         }
+    }
+
+
+    private function syncSites($user, $data) {
+        $siteIds = isset($data['user_sites']) ? $data['user_sites'] : [];
+        $user->sites()->sync($siteIds);
+    }
+
+    private function detachSites($user) {
+        $user->sites()->detach();
     }
 }

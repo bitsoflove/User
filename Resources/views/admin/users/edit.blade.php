@@ -21,6 +21,10 @@
                 <li class=""><a href="#tab_2-2" data-toggle="tab">{{ trans('user::users.tabs.roles') }}</a></li>
                 <li class=""><a href="#tab_3-3" data-toggle="tab">{{ trans('user::users.tabs.permissions') }}</a></li>
                 <li class=""><a href="#password_tab" data-toggle="tab">{{ trans('user::users.tabs.new password') }}</a></li>
+
+                @if(is_module_enabled('Site'))
+                    <li class=""><a href="#tab-sites" data-toggle="tab">Sites</a></li>
+                @endif
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1-1">
@@ -61,7 +65,7 @@
                                                {{ $user->id === $currentUser->id ? 'disabled' : '' }}
                                                {{ Input::old('activated', $oldValue) }}
                                                value="1" />
-                                        {{ trans('user::users.form.is activated') }}
+                                        {{ trans('user::users.form.is_activated') }}
                                         {!! $errors->first('activated', '<span class="help-block">:message</span>') !!}
                                     </label>
                                 </div>
@@ -109,6 +113,25 @@
                                 <a href="#" class="btn btn-flat bg-maroon" data-toggle="tooltip" data-placement="bottom" title="Coming soon">
                                     {{ trans('user::users.send reset password email') }}
                                 </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="tab-pane" id="tab-sites">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-12">
+
+
+                                @include('fields::select-multiple', [
+                                    'title' => 'Sites',
+                                    'name' => 'user_sites',
+                                    'options' => Site::all()->lists('title', 'id')->toArray(),
+                                    'selected' => empty($user) ? [] :  $user->sites->lists('title', 'id')->toArray(),
+                                ])
+
                             </div>
                         </div>
                     </div>
