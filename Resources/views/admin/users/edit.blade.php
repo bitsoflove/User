@@ -128,8 +128,8 @@
                                 @include('fields::select-multiple', [
                                     'title' => 'Sites',
                                     'name' => 'user_sites',
-                                    'options' => Site::all()->lists('title', 'id')->toArray(),
-                                    'selected' => empty($user) ? [] :  $user->sites->lists('title', 'id')->toArray(),
+                                    'options' => Site::all()->lists('slug', 'id')->toArray(),
+                                    'selected' => empty($user) ? [] :  $user->sites->lists('slug', 'id')->toArray(),
                                 ])
 
                             </div>
