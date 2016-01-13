@@ -5,11 +5,14 @@ use Cartalyst\Sentinel\Users\EloquentUser;
 use Illuminate\Support\Facades\Config;
 use Laracasts\Presenter\PresentableTrait;
 use Modules\User\Entities\UserInterface;
+use Mpociot\Teamwork\Traits\UserHasTeams;
 
 class User extends EloquentUser implements UserInterface
 {
     use PresentableTrait;
     use \Modules\User\Traits\MultiSiteTenancyTrait;
+
+    use UserHasTeams; // Add this trait to your model
 
     protected $fillable = [
         'email',
@@ -17,6 +20,7 @@ class User extends EloquentUser implements UserInterface
         'permissions',
         'first_name',
         'last_name',
+        'active',
     ];
 
     /**

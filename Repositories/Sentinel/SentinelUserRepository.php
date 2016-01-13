@@ -46,7 +46,7 @@ class SentinelUserRepository implements UserRepository
             $this->syncSites($user, $data);
         }
 
-        return $this->find($user->id);
+        return $user;
     }
 
     /**
@@ -100,7 +100,7 @@ class SentinelUserRepository implements UserRepository
 
         event(new UserWasUpdated($user));
 
-        return $this->find($user->id);
+        return $user;
     }
 
     /**
@@ -140,11 +140,12 @@ class SentinelUserRepository implements UserRepository
      */
     public function delete($id)
     {
-        if(is_module_enabled('Site')) {
-            $this->detachSites($user);
-        }
-
         if ($user = $this->user->find($id)) {
+
+            if(is_module_enabled('Site')) {
+                $this->detachSites($user);
+            }
+
             return $user->delete();
         };
 
