@@ -10,7 +10,6 @@ use Mpociot\Teamwork\Traits\UserHasTeams;
 class User extends EloquentUser implements UserInterface
 {
     use PresentableTrait;
-    use \Modules\User\Traits\MultiSiteTenancyTrait;
 
     use UserHasTeams; // Add this trait to your model
 
@@ -30,11 +29,6 @@ class User extends EloquentUser implements UserInterface
 
     protected $presenter = 'Modules\User\Presenters\UserPresenter';
 
-    public function sites() {
-        if (is_module_enabled('Site')) {
-            return $this->belongsToMany(\App\Models\Site::class, 'site_user', 'user_id', 'site_id');
-        }
-    }
 
     public function __construct(array $attributes = [])
     {

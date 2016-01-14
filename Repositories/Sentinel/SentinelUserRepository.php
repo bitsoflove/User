@@ -1,5 +1,6 @@
 <?php namespace Modules\User\Repositories\Sentinel;
 
+use App\Models\User;
 use Cartalyst\Sentinel\Laravel\Facades\Activation;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Support\Facades\Hash;
@@ -42,10 +43,6 @@ class SentinelUserRepository implements UserRepository
     {
         $user = $this->user->create((array) $data);
 
-        if(is_module_enabled('Site')) {
-            $this->syncSites($user, $data);
-        }
-
         return $user;
     }
 
@@ -68,10 +65,6 @@ class SentinelUserRepository implements UserRepository
             $activation = Activation::create($user);
             Activation::complete($user, $activation->code);
         }
-
-        if(is_module_enabled('Site')) {
-            $this->syncSites($user, $data);
-        }
     }
 
     /**
@@ -93,10 +86,6 @@ class SentinelUserRepository implements UserRepository
     public function update($user, $data)
     {
         $user = $user->update($data);
-
-        if(is_module_enabled('Site')) {
-            $this->syncSites($user, $data);
-        }
 
         event(new UserWasUpdated($user));
 
@@ -141,11 +130,6 @@ class SentinelUserRepository implements UserRepository
     public function delete($id)
     {
         if ($user = $this->user->find($id)) {
-
-            if(is_module_enabled('Site')) {
-                $this->detachSites($user);
-            }
-
             return $user->delete();
         };
 
@@ -205,13 +189,4 @@ class SentinelUserRepository implements UserRepository
         }
     }
 
-
-    private function syncSites($user, $data) {
-        $siteIds = isset($data['user_sites']) ? $data['user_sites'] : [];
-        $user->sites()->sync($siteIds);
-    }
-
-    private function detachSites($user) {
-        $user->sites()->detach();
-    }
 }

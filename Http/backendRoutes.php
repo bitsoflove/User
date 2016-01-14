@@ -5,6 +5,7 @@ $router->group(['prefix' => '/user'], function () {
     get('users/create', ['as' => 'admin.user.user.create', 'uses' => 'UserController@create']);
     post('users', ['as' => 'admin.user.user.store', 'uses' => 'UserController@store']);
     get('users/{users}/edit', ['as' => 'admin.user.user.edit', 'uses' => 'UserController@edit']);
+    get('users/{users}/delete', ['as' => 'admin.user.user.get-destroy', 'uses' => 'UserController@destroy']);
     put('users/{users}/edit', ['as' => 'admin.user.user.update', 'uses' => 'UserController@update']);
     delete('users/{users}', ['as' => 'admin.user.user.destroy', 'uses' => 'UserController@destroy']);
 
