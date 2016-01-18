@@ -65,7 +65,7 @@
                                                {{ $user->id === $currentUser->id ? 'disabled' : '' }}
                                                {{ Input::old('activated', $oldValue) }}
                                                value="1" />
-                                        {{ trans('user::users.form.is_activated') }}
+                                        {{ trans('user::users.form.is activated') }}
                                         {!! $errors->first('activated', '<span class="help-block">:message</span>') !!}
                                     </label>
                                 </div>
