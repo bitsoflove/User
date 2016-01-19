@@ -111,7 +111,7 @@ class SentinelUserRepository implements UserRepository
         $user->save();
 
         if(is_module_enabled('Site')) {
-            $this->syncSites($user, $data);
+            $user->syncSites($data);
         }
 
         event(new UserWasUpdated($user));
