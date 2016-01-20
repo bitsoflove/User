@@ -1,6 +1,7 @@
 <?php namespace Modules\User\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Session;
 
 class LoginRequest extends FormRequest
 {
@@ -30,5 +31,10 @@ class LoginRequest extends FormRequest
     public function messages()
     {
         return [];
+    }
+
+    public function validate() {
+        Session::flash('error_location', 'login');
+        parent::validate();
     }
 }
