@@ -5,7 +5,6 @@ use Cartalyst\Sentinel\Users\EloquentUser;
 use Illuminate\Support\Facades\Config;
 use Laracasts\Presenter\PresentableTrait;
 use Modules\User\Entities\UserInterface;
-use Mpociot\Teamwork\Traits\UserHasTeams;
 
 class User extends EloquentUser implements UserInterface
 {
