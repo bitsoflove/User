@@ -10,9 +10,6 @@ use Mpociot\Teamwork\Traits\UserHasTeams;
 class User extends EloquentUser implements UserInterface
 {
     use PresentableTrait;
-
-    use UserHasTeams; // Add this trait to your model
-
     protected $fillable = [
         'email',
         'password',
