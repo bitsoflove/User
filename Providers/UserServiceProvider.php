@@ -42,6 +42,13 @@ class UserServiceProvider extends ServiceProvider
         );
 
         $this->registerBindings();
+
+        $migrations = realpath(__DIR__.'/../Database/Migrations');
+
+        $this->publishes([
+          $migrations => $this->app->databasePath().'/migrations',
+        ], 'migrations');
+
     }
 
     /**
