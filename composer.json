@@ -1,5 +1,5 @@
 {
-  "name": "asgardcms/user-module",
+  "name": "bitsoflove-asgard/user",
   "type": "asgard-module",
   "description": "User module for AsgardCMS. Handles the authentication and authorisation as well as the user management.",
   "keywords": [
@@ -24,7 +24,7 @@
   "require": {
     "php": ">=5.4",
     "composer/installers": "~1.0",
-    "asgardcms/core-module": "dev-master"
+    "bitsoflove-asgard/core": "~1.22.0.1"
   },
   "require-dev": {
     "phpunit/phpunit": "~4.0",
